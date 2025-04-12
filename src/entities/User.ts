@@ -1,23 +1,23 @@
 import {Column, Entity, PrimaryColumn} from "typeorm";
 
-@Entity()
+@Entity("USERS")
 export class User {
     @PrimaryColumn()
     id: number;
 
-    @Column()
+    @Column("varchar", {length: 50, nullable: false})
     name: string;
 
-    @Column()
+    @Column("varchar", {length: 50, nullable: false})
     email: string;
 
-    @Column()
+    @Column({nullable: false})
     password: string;
 
-    @Column({name: 'birth_date'})
+    @Column({name: 'birth_date', nullable: false})
     birthdate: Date;
 
-    @Column({name: 'created_at'})
+    @Column({name: 'created_at', nullable: false})
     createdAt: Date;
 
     constructor(
