@@ -1,0 +1,28 @@
+import {AppDataSource} from "../config/database/data-source";
+import {UserAggregate} from "../aggregates/UserAggregate";
+import {Repository} from "typeorm";
+import {User} from "../domain/User/User";
+import {UserMapper} from "../util/mapper/UserMapper";
+
+export class UserRepository {
+    private repository: Repository<UserAggregate> = AppDataSource.getRepository(UserAggregate);
+
+    public async registerUser(user: User): Promise<User> {
+        const userAggregate: UserAggregate = UserMapper.fromDomainToAggregate(user);
+        const savedAggregate: UserAggregate = await this.repository.save(userAggregate);
+
+        return UserMapper.fromAggregateToDomain(savedAggregate);
+    }
+
+    async findByEmail(email: string): Promise<User | null> {
+        const userAggregate: UserAggregate | null = await this.repository.findOne({
+            where: { email },
+        });
+
+        if (!userAggregate) {
+            return null;
+        }
+
+        return UserMapper.fromAggregateToDomain(userAggregate);
+    }
+}
