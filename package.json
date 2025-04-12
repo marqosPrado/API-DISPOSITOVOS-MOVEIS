@@ -3,8 +3,9 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "start": "tsc && node dist/server.js",
-    "build": "tsc"
+    "start:dev": "nodemon --exec ts-node src/server.ts",
+    "migration:generate": "typeorm-ts-node-commonjs -d ./src/config/database/data-source.ts migration:generate ./src/migration/default",
+    "migration:run": "typeorm-ts-node-commonjs -d ./src/config/database/data-source.ts migration:run"
   },
   "keywords": [],
   "author": "",
@@ -14,7 +15,9 @@
     "@types/dotenv": "^6.1.1",
     "dotenv": "^16.5.0",
     "express": "^4.21.2",
+    "nodemon": "^3.1.9",
     "pg": "^8.14.1",
+    "ts-node": "^10.9.2",
     "typeorm": "^0.3.22",
     "typescript": "^5.8.2"
   },
