@@ -1,24 +1,29 @@
-import {Column, Entity, PrimaryColumn} from "typeorm";
+import {Column, Entity, OneToMany, PrimaryColumn} from "typeorm";
+import {VehicleAggregate} from "./VehicleAggregate";
 
 @Entity("USERS")
 export class UserAggregate {
-    @PrimaryColumn()
+
+    @PrimaryColumn({name: "USE_ID"})
     id: string;
 
-    @Column("varchar", {length: 50, nullable: false})
+    @Column("varchar", {length: 50, nullable: false, name: "USE_NAME"})
     name: string;
 
-    @Column("varchar", {length: 50, nullable: false})
+    @Column("varchar", {length: 50, nullable: false, name: "USE_EMAIL"})
     email: string;
 
-    @Column({nullable: false})
+    @Column({nullable: false, name: "USE_PASSWORD"})
     password: string;
 
-    @Column({name: 'birth_date', nullable: false})
+    @Column({nullable: false, name: 'USE_BIRTH_DATE'})
     birthdate: Date;
 
-    @Column({name: 'created_at', nullable: false})
+    @Column({nullable: false, name: 'USE_CREATED_AT'})
     createdAt: Date;
+
+    @OneToMany(() => VehicleAggregate, (vehicle: VehicleAggregate): UserAggregate => vehicle.owner)
+    vehicles!: VehicleAggregate[];
 
     constructor(
         id: string,
