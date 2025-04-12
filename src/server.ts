@@ -1,19 +1,16 @@
 import App from "./app";
-import {DatabaseConnection} from "./config/database/database-connection";
+import {AppDataSource} from "./config/database/data-source";
 
 const app = new App();
-
 const port: number = 3000;
 
-app.express.listen(port, (): void => {
-    DatabaseConnection.initialize()
-        .then(_ => {
-            console.log("Database connection initialized");
-        })
-        .then((): void => {
-            console.log(`Server running on port http://localhost:${port}/`);
-        })
-        .catch((error: Error): void => {
-            console.error(`Failed to initialize database connection: ${error}`);
-        })
-});
+AppDataSource.initialize()
+    .then((): void => {
+        console.log("Database connection established");
+        app.express.listen(port, () => {
+            console.log(`Server is running on http://localhost:${port}`);
+        });
+    })
+    .catch((error: Error) => {
+        console.error("Error during Data Source initialization", error);
+    })
