@@ -1,9 +1,9 @@
 import {Column, Entity, PrimaryColumn} from "typeorm";
 
 @Entity("USERS")
-export class User {
+export class UserAggregate {
     @PrimaryColumn()
-    id: number;
+    id: string;
 
     @Column("varchar", {length: 50, nullable: false})
     name: string;
@@ -21,7 +21,7 @@ export class User {
     createdAt: Date;
 
     constructor(
-        id: number,
+        id: string,
         name: string,
         email: string,
         password: string,
