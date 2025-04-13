@@ -10,6 +10,6 @@ const userService = new UserService(userRepository);
 const userController = new UserController(userService);
 
 router.post("/register", userController.registerUser.bind(userController));
-router.get("/all", userController.getUsers.bind(userController));
+router.get("/all", userController.findAll.bind(userController));
 
 export default router;
