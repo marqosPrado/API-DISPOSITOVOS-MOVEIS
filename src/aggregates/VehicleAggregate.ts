@@ -1,5 +1,7 @@
 import {Column, Entity, JoinColumn, ManyToOne, PrimaryColumn} from "typeorm";
 import {UserAggregate} from "./UserAggregate";
+import {Vehicle} from "../domain/Vehicle/Vehicle";
+import {LicensePlate} from "../domain/Vehicle/LicensePlate";
 
 @Entity("VEHICLES")
 export class VehicleAggregate {
@@ -44,6 +46,18 @@ export class VehicleAggregate {
         this.color = color;
         this.licensePlate = licensePlate;
         this.registrationDate = registrationDate;
+    }
+
+    toDomain(): Vehicle {
+        return Vehicle.create(
+            this.brand,
+            this.model,
+            this.year,
+            this.color,
+            new LicensePlate(this.licensePlate),
+            this.registrationDate,
+            this.id
+        )
     }
 
 }
