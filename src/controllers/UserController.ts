@@ -34,4 +34,23 @@ export class UserController {
         const users = await this.userService.findAll();
         res.status(200).json(users);
     }
+
+    async findByEmail(req: Request, res: Response) {
+        const userEmail: string = req.query.email as string;
+        if (!userEmail) {
+            return res.status(400).json({ message: 'Email is required' });
+        }
+
+        try {
+            res.status(200).json(
+                await this.userService.findByEmail(userEmail)
+            );
+        } catch (error: unknown) {
+            if (error instanceof Error) {
+                res.status(400).json({ message: error.message });
+            } else {
+                res.status(500).json({ message: 'Unexpected error' });
+            }
+        }
+    }
 }
