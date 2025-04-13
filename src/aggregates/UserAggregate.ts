@@ -1,5 +1,6 @@
 import {Column, Entity, OneToMany, PrimaryColumn} from "typeorm";
 import {VehicleAggregate} from "./VehicleAggregate";
+import {User} from "../domain/User/User";
 
 @Entity("USERS")
 export class UserAggregate {
@@ -39,5 +40,19 @@ export class UserAggregate {
         this.password = password;
         this.birthdate = birthdate;
         this.createdAt = createdAt;
+    }
+
+    async toDomain(): Promise<User> {
+        return await User.create(
+            this.name,
+            this.email,
+            this.password,
+            this.birthdate,
+            this.createdAt,
+            this.vehicles?.map(
+                (vehicle: VehicleAggregate) => vehicle.toDomain()
+            ) ?? [],
+            this.id
+        )
     }
 }
