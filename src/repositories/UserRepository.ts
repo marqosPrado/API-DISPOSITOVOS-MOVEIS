@@ -37,4 +37,11 @@ export class UserRepository {
 
         return await userAggregate.toDomain()
     }
+
+    async findAll(): Promise<User[]> {
+        const userAggregates: UserAggregate[] = await this.repository.find();
+        return await Promise.all(
+            userAggregates.map(userAggregate => userAggregate.toDomain())
+        );
+    }
 }

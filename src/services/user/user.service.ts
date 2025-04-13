@@ -17,4 +17,8 @@ export class UserService {
         }
         return await this.userRepository.registerUser(user);
     }
+
+    async findAll(): Promise<User[]> {
+        return await this.userRepository.findAll();
+    }
 }

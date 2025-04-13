@@ -16,7 +16,7 @@ export class UserController {
         const errors = await validate(dto);
 
         if (errors.length > 0) {
-            return res.status(400).json({errors});
+            res.status(400).json({errors});
         }
 
         try {
@@ -30,10 +30,8 @@ export class UserController {
         }
     }
 
-    public getUsers(_: Request, res: Response): Response {
-        return res.status(200).json({
-            status: 'success',
-            message: 'Users fetched successfully',
-        });
+    async findAll(_: Request, res: Response) {
+        const users = await this.userService.findAll();
+        res.status(200).json(users);
     }
 }
