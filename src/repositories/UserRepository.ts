@@ -11,7 +11,7 @@ export class UserRepository {
         const userAggregate: UserAggregate = UserMapper.fromDomainToAggregate(user);
         const savedAggregate: UserAggregate = await this.repository.save(userAggregate);
 
-        return UserMapper.fromAggregateToDomain(savedAggregate);
+        return await savedAggregate.toDomain();
     }
 
     async findByEmail(email: string): Promise<User | null> {
@@ -23,6 +23,18 @@ export class UserRepository {
             return null;
         }
 
-        return UserMapper.fromAggregateToDomain(userAggregate);
+        return await userAggregate.toDomain();
+    }
+
+    async findById(ownerId: string): Promise<User | null> {
+        const userAggregate: UserAggregate | null = await this.repository.findOne({
+            where: { id: ownerId },
+        });
+
+        if (!userAggregate) {
+            return null;
+        }
+
+        return await userAggregate.toDomain()
     }
 }

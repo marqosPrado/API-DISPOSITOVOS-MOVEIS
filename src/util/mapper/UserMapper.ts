@@ -22,15 +22,4 @@ export class UserMapper {
             user.createdAt,
         );
     }
-
-    static async fromAggregateToDomain(userAggregate: UserAggregate): Promise<User> {
-        return await User.create(
-            userAggregate.name,
-            userAggregate.email,
-            userAggregate.password,
-            userAggregate.birthdate,
-            userAggregate.createdAt,
-            userAggregate.id,
-        );
-    }
 }
