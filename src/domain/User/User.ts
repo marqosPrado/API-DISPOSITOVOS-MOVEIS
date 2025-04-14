@@ -10,6 +10,7 @@ export class User {
     private _password: string;
     private _birthdate: Date;
     private readonly _createdAt: Date;
+    private _isActive: boolean;
     private _vehicles: Vehicle[];
 
     private constructor(
@@ -17,6 +18,7 @@ export class User {
         email: string,
         password: string,
         birthdate: Date,
+        isActive?: boolean,
         vehicles?: Vehicle[],
         createdAt?: Date,
         id?: string
@@ -27,6 +29,7 @@ export class User {
         this._password = password;
         this._birthdate = new Date(birthdate);
         this._createdAt = createdAt || new Date();
+        this._isActive = isActive !== undefined ? isActive : true;
         this._vehicles = vehicles || [];
     }
 
@@ -35,6 +38,7 @@ export class User {
         email: string,
         password: string,
         birthdate: Date,
+        isActive?: boolean,
         createdAt?: Date,
         vehicles?: Vehicle[],
         id?: string
@@ -45,6 +49,7 @@ export class User {
             email,
             encryptedPassword,
             birthdate,
+            isActive,
             vehicles,
             createdAt,
             id
@@ -113,6 +118,26 @@ export class User {
             throw new Error('Vehicle not found');
         }
         this._vehicles = newVehicles;
+    }
+
+    get isActive(): boolean {
+        return this._isActive;
+    }
+
+    active(): void {
+        if (!this._isActive) {
+            this._isActive = true;
+            return;
+        }
+        throw new Error("User already active");
+    }
+
+    disable(): void {
+        if (this._isActive) {
+            this._isActive = false;
+            return;
+        }
+        throw new Error("User already disabled");
     }
 
 }
