@@ -19,6 +19,7 @@ export class UserMapper {
             user.email.content,
             user.password,
             user.birthdate,
+            user.isActive,
             user.createdAt,
         );
     }
