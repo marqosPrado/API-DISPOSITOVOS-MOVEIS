@@ -29,4 +29,13 @@ export class UserService {
         }
         return user;
     }
+
+    async disable(userId: string) {
+        const user = await this.userRepository.findById(userId);
+        if (!user) {
+            throw new Error("User not found");
+        }
+        user.disable();
+        return await this.userRepository.registerUser(user);
+    }
 }

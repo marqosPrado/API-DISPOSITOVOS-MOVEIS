@@ -23,6 +23,9 @@ export class UserAggregate {
     @Column({nullable: false, name: 'USE_CREATED_AT'})
     createdAt: Date;
 
+    @Column({nullable: false, name: 'USE_IS_ACTIVE', default: true})
+    isActive!: boolean;
+
     @OneToMany(() => VehicleAggregate, (vehicle: VehicleAggregate): UserAggregate => vehicle.owner)
     vehicles!: VehicleAggregate[];
 
@@ -32,6 +35,7 @@ export class UserAggregate {
         email: string,
         password: string,
         birthdate: Date,
+        isActive: boolean,
         createdAt: Date
     ) {
         this.id = id;
@@ -39,6 +43,7 @@ export class UserAggregate {
         this.email = email;
         this.password = password;
         this.birthdate = birthdate;
+        this.isActive = isActive;
         this.createdAt = createdAt;
     }
 
@@ -48,6 +53,7 @@ export class UserAggregate {
             this.email,
             this.password,
             this.birthdate,
+            this.isActive,
             this.createdAt,
             this.vehicles?.map(
                 (vehicle: VehicleAggregate) => vehicle.toDomain()
