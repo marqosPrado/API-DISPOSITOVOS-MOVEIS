@@ -12,5 +12,6 @@ const userController = new UserController(userService);
 router.post("/register", userController.registerUser.bind(userController));
 router.get("/all", userController.findAll.bind(userController));
 router.get("/find", userController.findByEmail.bind(userController));
+router.delete("/disable", userController.disable.bind(userController));
 
 export default router;
