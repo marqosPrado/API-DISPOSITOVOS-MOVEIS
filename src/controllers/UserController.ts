@@ -3,6 +3,7 @@ import {UserService} from "../services/user/user.service";
 import {plainToInstance} from "class-transformer";
 import {UserRequestDto} from "../dto/user-request.dto";
 import {validate} from "class-validator";
+import {UserUpdateDto} from "../dto/user-update.dto";
 
 export class UserController {
     constructor(
@@ -63,6 +64,30 @@ export class UserController {
         try {
             await this.userService.disable(userId)
             return res.status(200).json({message: `User ${userId} is disabled`});
+        } catch (error: unknown) {
+            if (error instanceof Error) {
+                res.status(400).json({ message: error.message });
+            } else {
+                res.status(500).json({ message: 'Unexpected error' });
+            }
+        }
+    }
+
+    async edit(req: Request, res: Response) {
+        const dto = plainToInstance(UserUpdateDto, req.body) as unknown as UserUpdateDto;
+        const errors = await validate(dto); // Validação adicionada
+
+        if (errors.length > 0) {
+            return res.status(400).json({ errors });
+        }
+
+        if (!dto.id) {
+            return res.status(400).json({ message: 'User id is required' });
+        }
+
+        try {
+            const editedUser = await this.userService.edit(dto);
+            return res.status(200).json(editedUser);
         } catch (error: unknown) {
             if (error instanceof Error) {
                 res.status(400).json({ message: error.message });
