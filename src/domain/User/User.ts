@@ -1,5 +1,5 @@
 import {Email} from "../ValueObjects/Email";
-import { v4 as uuidv4 } from 'uuid';
+import {v4 as uuidv4} from 'uuid';
 import {Encryption} from "../../util/Encryption";
 import {Vehicle} from "../Vehicle/Vehicle";
 
@@ -10,6 +10,7 @@ export class User {
     private _password: string;
     private _birthdate: Date;
     private readonly _createdAt: Date;
+    private _updatedAt: Date;
     private _isActive: boolean;
     private _vehicles: Vehicle[];
 
@@ -21,14 +22,16 @@ export class User {
         isActive?: boolean,
         vehicles?: Vehicle[],
         createdAt?: Date,
+        updatedAt?: Date,
         id?: string
     ) {
         this._id = id || uuidv4();
         this._name = name;
         this._email = new Email(email);
-        this._password = password;
+        this._password = password
         this._birthdate = new Date(birthdate);
         this._createdAt = createdAt || new Date();
+        this._updatedAt = updatedAt || new Date();
         this._isActive = isActive !== undefined ? isActive : true;
         this._vehicles = vehicles || [];
     }
@@ -40,18 +43,19 @@ export class User {
         birthdate: Date,
         isActive?: boolean,
         createdAt?: Date,
+        updatedAt?: Date,
         vehicles?: Vehicle[],
         id?: string
     ): Promise<User> {
-        const encryptedPassword: string = await Encryption.encryptPassword(password);
         return new User(
             name,
             email,
-            encryptedPassword,
+            password,
             birthdate,
             isActive,
             vehicles,
             createdAt,
+            updatedAt,
             id
         );
     }
@@ -102,6 +106,14 @@ export class User {
         return this._createdAt;
     }
 
+    get updatedAt(): Date {
+        return this._updatedAt;
+    }
+
+    set updatedAt(value: Date) {
+        this._updatedAt = value;
+    }
+
     get vehicles(): Vehicle[] {
         return this._vehicles.slice();
     }
@@ -139,5 +151,20 @@ export class User {
         }
         throw new Error("User already disabled");
     }
+
+    async update(
+        props: {
+            name: string | undefined;
+            email: string | undefined;
+            password: string | undefined;
+            birthdate: Date | undefined
+        }) {
+        if (props.name) this.name = props.name;
+        if (props.email) this.email = new Email(props.email)
+        if (props.password) this.password = await Encryption.encryptPassword(props.password);
+        if (props.birthdate) this.birthdate = new Date(props.birthdate);
+        this.updatedAt = new Date();
+    }
+
 
 }
