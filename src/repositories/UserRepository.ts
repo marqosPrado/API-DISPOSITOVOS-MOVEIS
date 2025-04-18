@@ -16,7 +16,7 @@ export class UserRepository {
 
     async findByEmail(email: string): Promise<User | null> {
         const userAggregate: UserAggregate | null = await this.repository.findOne({
-            where: { email },
+            where: {email},
         });
 
         if (!userAggregate) {
@@ -28,7 +28,7 @@ export class UserRepository {
 
     async findById(ownerId: string): Promise<User | null> {
         const userAggregate: UserAggregate | null = await this.repository.findOne({
-            where: { id: ownerId },
+            where: {id: ownerId},
         });
 
         if (!userAggregate) {
@@ -43,5 +43,21 @@ export class UserRepository {
         return await Promise.all(
             userAggregates.map(userAggregate => userAggregate.toDomain())
         );
+    }
+
+    async update(userAggregate: UserAggregate): Promise<User | null> {
+        await this.repository.update({id: userAggregate.id}, {
+            name: userAggregate.name,
+            email: userAggregate.email,
+            password: userAggregate.password,
+            isActive: userAggregate.isActive,
+            updatedAt: userAggregate.updatedAt
+        })
+
+        const aggregate = await this.repository.findOneBy({id: userAggregate.id})
+        if (!aggregate) {
+            return null;
+        }
+        return aggregate.toDomain()
     }
 }

@@ -23,6 +23,9 @@ export class UserAggregate {
     @Column({nullable: false, name: 'USE_CREATED_AT'})
     createdAt: Date;
 
+    @Column({nullable: false, name: 'USE_UPDATE_AT'})
+    updatedAt: Date;
+
     @Column({nullable: false, name: 'USE_IS_ACTIVE', default: true})
     isActive!: boolean;
 
@@ -36,7 +39,8 @@ export class UserAggregate {
         password: string,
         birthdate: Date,
         isActive: boolean,
-        createdAt: Date
+        createdAt: Date,
+        updatedAt: Date,
     ) {
         this.id = id;
         this.name = name;
@@ -45,6 +49,7 @@ export class UserAggregate {
         this.birthdate = birthdate;
         this.isActive = isActive;
         this.createdAt = createdAt;
+        this.updatedAt = updatedAt;
     }
 
     async toDomain(): Promise<User> {
@@ -55,6 +60,7 @@ export class UserAggregate {
             this.birthdate,
             this.isActive,
             this.createdAt,
+            this.updatedAt,
             this.vehicles?.map(
                 (vehicle: VehicleAggregate) => vehicle.toDomain()
             ) ?? [],
