@@ -56,14 +56,14 @@ export class UserController {
     }
 
     async disable(req: Request, res: Response) {
-        const userId: string = req.query.userId as string;
+        const userId: string = req.params.id as string;
         if (!userId) {
             return res.status(400).json({ message: 'User id is required' });
         }
 
         try {
-            await this.userService.disable(userId)
-            return res.status(200).json({message: `User ${userId} is disabled`});
+            const user = await this.userService.disable(userId)
+            return res.status(200).json({message: `User: ${user.name} is disabled`});
         } catch (error: unknown) {
             if (error instanceof Error) {
                 res.status(400).json({ message: error.message });
