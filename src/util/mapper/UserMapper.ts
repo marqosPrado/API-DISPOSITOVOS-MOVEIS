@@ -21,6 +21,7 @@ export class UserMapper {
             user.birthdate,
             user.isActive,
             user.createdAt,
+            user.updatedAt
         );
     }
 }
