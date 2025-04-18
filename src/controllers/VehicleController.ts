@@ -31,4 +31,12 @@ export class VehicleController {
             }
         }
     }
+
+    async listAllByOwner(req: Request, res: Response): Promise<void> {
+        const ownerId = req.query.ownerId as string;
+        if (!ownerId) {
+            res.status(400).json({ message: 'Owner Id is required' });
+        }
+        res.status(200).json(await this.vehicleService.getAllByOwner(ownerId))
+    }
 }
