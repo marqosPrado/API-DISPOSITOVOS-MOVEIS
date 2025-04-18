@@ -24,4 +24,14 @@ export class VehicleService {
 
         return await this.vehicleRepository.register(vehicleAggregate);
     }
+
+    async getAllByOwner(ownerId: string) {
+        const user = await this.userRepository.findById(ownerId);
+        if (!user) {
+            throw new Error("User not found");
+        }
+        const userAggregate = UserMapper.fromDomainToAggregate(user);
+
+        return await this.vehicleRepository.findAllByOwnerId(userAggregate);
+    }
 }
