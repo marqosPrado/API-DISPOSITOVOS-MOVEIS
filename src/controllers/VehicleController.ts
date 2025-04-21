@@ -1,5 +1,4 @@
-import { Request, Response } from 'express';
-import {Vehicle} from "../domain/Vehicle/Vehicle";
+import {Request, Response} from 'express';
 import {plainToInstance} from "class-transformer";
 import {VehicleRequestDto} from "../dto/vehicle-request.dto";
 import {validate} from "class-validator";
