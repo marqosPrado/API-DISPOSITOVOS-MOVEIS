@@ -10,5 +10,6 @@ const controller = new CategoryController(service);
 const router: Router = Router();
 router.post("/register", (req: Request, res: Response) => controller.save(req, res));
 router.get("/find/:id", (req: Request, res: Response) => controller.findOneById(req, res));
+router.delete("/delete/:id", (req: Request, res: Response) => controller.delete(req, res));
 
 export default router;
