@@ -1,0 +1,13 @@
+import {Router, Response, Request} from "express";
+import {CategoryRepository} from "../repositories/CategoryRepository";
+import {CategoryService} from "../services/category/CategoryService";
+import {CategoryController} from "../controllers/CategoryController";
+
+const repository = new CategoryRepository();
+const service = new CategoryService(repository);
+const controller = new CategoryController(service);
+
+const router: Router = Router();
+router.post("/register", (req: Request, res: Response) => controller.save(req, res))
+
+export default router;
