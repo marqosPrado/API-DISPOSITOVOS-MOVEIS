@@ -18,7 +18,7 @@ export class Vehicle {
         color: string,
         licensePlate: LicensePlate,
         registrationDate: Date,
-        isActive: boolean,
+        isActive?: boolean,
         id?: string
     ) {
         this._id = id || uuidv4();
@@ -28,7 +28,7 @@ export class Vehicle {
         this._color = color;
         this._licensePlate = licensePlate;
         this._registrationDate = registrationDate;
-        this._isActive = isActive;
+        this._isActive = true;
     }
 
     static create(
@@ -38,7 +38,7 @@ export class Vehicle {
         color: string,
         licensePlate: LicensePlate,
         registrationDate: Date,
-        isActive: boolean,
+        isActive?: boolean,
         id?: string
     ): Vehicle {
         return new Vehicle(
@@ -145,14 +145,14 @@ export class Vehicle {
 
     active(): void {
         if (this._isActive) {
-            throw new Error("Vehicle already active");
+            throw new Error("Cannot active vehicle: already activated.");
         }
         this._isActive = true;
     }
 
     disable(): void {
         if (!this._isActive) {
-            throw new Error("Vehicle already disabled")
+            throw new Error("Cannot disable vehicle: already disabled.")
         }
         this._isActive = false;
     }
