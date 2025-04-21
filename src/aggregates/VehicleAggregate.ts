@@ -30,6 +30,9 @@ export class VehicleAggregate {
     @JoinColumn({name: "VEH_USE_ID"})
     owner!: UserAggregate;
 
+    @Column({nullable: false, name: "VEH_IS_ACTIVE"})
+    isActivate: boolean;
+
     constructor(
         id: string,
         brand: string,
@@ -37,7 +40,8 @@ export class VehicleAggregate {
         year: number,
         color: string,
         licensePlate: string,
-        registrationDate: Date
+        registrationDate: Date,
+        isActive: boolean
     ) {
         this.id = id;
         this.brand = brand;
@@ -46,6 +50,7 @@ export class VehicleAggregate {
         this.color = color;
         this.licensePlate = licensePlate;
         this.registrationDate = registrationDate;
+        this.isActivate = isActive;
     }
 
     toDomain(): Vehicle {
@@ -56,6 +61,7 @@ export class VehicleAggregate {
             this.color,
             new LicensePlate(this.licensePlate),
             this.registrationDate,
+            this.isActivate,
             this.id
         )
     }

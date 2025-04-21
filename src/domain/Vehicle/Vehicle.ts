@@ -9,6 +9,7 @@ export class Vehicle {
     private _color: string;
     private _licensePlate: LicensePlate;
     private _registrationDate: Date;
+    private _isActive: boolean;
 
     private constructor(
         brand: string,
@@ -17,6 +18,7 @@ export class Vehicle {
         color: string,
         licensePlate: LicensePlate,
         registrationDate: Date,
+        isActive: boolean,
         id?: string
     ) {
         this._id = id || uuidv4();
@@ -26,6 +28,7 @@ export class Vehicle {
         this._color = color;
         this._licensePlate = licensePlate;
         this._registrationDate = registrationDate;
+        this._isActive = isActive;
     }
 
     static create(
@@ -35,6 +38,7 @@ export class Vehicle {
         color: string,
         licensePlate: LicensePlate,
         registrationDate: Date,
+        isActive: boolean,
         id?: string
     ): Vehicle {
         return new Vehicle(
@@ -44,6 +48,7 @@ export class Vehicle {
             color,
             licensePlate,
             registrationDate,
+            isActive,
             id
         );
     }
@@ -131,5 +136,24 @@ export class Vehicle {
             throw new Error("Registration date is required");
         }
         this._registrationDate = value;
+    }
+
+
+    get isActive(): boolean {
+        return this._isActive;
+    }
+
+    active(): void {
+        if (this._isActive) {
+            throw new Error("Vehicle already active");
+        }
+        this._isActive = true;
+    }
+
+    disable(): void {
+        if (!this._isActive) {
+            throw new Error("Vehicle already disabled")
+        }
+        this._isActive = false;
     }
 }
