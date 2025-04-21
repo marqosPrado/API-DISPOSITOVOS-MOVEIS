@@ -27,4 +27,12 @@ export class CategoryService {
         }
         return category;
     }
+
+    async delete(id: string): Promise<void> {
+        const categoryExists = await this.repository.findOneById(id);
+        if (!categoryExists) {
+            throw new Error(`Cannot find category with id: ${id}`);
+        }
+        await this.repository.delete(id);
+    }
 }
