@@ -19,4 +19,12 @@ export class CategoryService {
         const categoryAggregate = CategoryMapper.fromDomainToAggregate(category);
         return this.repository.save(categoryAggregate)
     }
+
+    async findOneById(id: string) {
+        const category = await this.repository.findOneById(id);
+        if (!category) {
+            throw new Error(`Cannot find category with id ${id}`);
+        }
+        return category;
+    }
 }
