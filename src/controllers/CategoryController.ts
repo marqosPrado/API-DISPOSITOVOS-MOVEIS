@@ -1,0 +1,27 @@
+import { Request, Response } from "express";
+import {CategoryService} from "../services/category/CategoryService";
+import {plainToInstance} from "class-transformer";
+import {CategoryRequestDto} from "../dto/category-request.dto";
+import {Category} from "../domain/Category/Category";
+
+export class CategoryController {
+    constructor(
+        private categoryService: CategoryService,
+    ) {
+    }
+
+    async save(req: Request, res: Response) {
+        const dto = plainToInstance(CategoryRequestDto, req.body) as unknown as CategoryRequestDto;
+
+        try {
+            const category: Category = await this.categoryService.save(dto);
+            res.status(201).json(category);
+        } catch (error: unknown) {
+            if (error instanceof Error) {
+                res.status(400).json({ message: error.message });
+            } else {
+                res.status(500).json({ message: 'Unexpected error' });
+            }
+        }
+    }
+}
