@@ -15,4 +15,12 @@ export class VehicleRepository {
     async findAllByOwnerId(owner: UserAggregate) {
         return await this.repository.findBy({owner: owner});
     }
+
+    async findOneById(vehicleId: string): Promise<Vehicle | null> {
+        const savedVehicleAggregate: VehicleAggregate | null = await this.repository.findOneBy({ id: vehicleId });
+        if (!savedVehicleAggregate) {
+            return null;
+        }
+        return savedVehicleAggregate.toDomain();
+    }
 }
