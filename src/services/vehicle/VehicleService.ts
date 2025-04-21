@@ -34,4 +34,16 @@ export class VehicleService {
 
         return await this.vehicleRepository.findAllByOwnerId(userAggregate);
     }
+
+    async disableById(vehicleId: string): Promise<Vehicle> {
+        const vehicle = await this.vehicleRepository.findOneById(vehicleId);
+        if (!vehicle) {
+            throw new Error("Vehicle not found");
+        }
+        vehicle.disable();
+        await this.vehicleRepository.register(
+            VehicleMapper.fromDomainToAggregate(vehicle),
+        )
+        return vehicle;
+    }
 }
