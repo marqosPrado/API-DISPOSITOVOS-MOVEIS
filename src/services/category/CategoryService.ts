@@ -2,6 +2,8 @@ import {CategoryRepository} from "../../repositories/CategoryRepository";
 import {Category} from "../../domain/Category/Category";
 import {CategoryRequestDto} from "../../dto/category-request.dto";
 import {CategoryMapper} from "../../util/mapper/CategoryMapper";
+import {CategoryUpdateDto} from "../../dto/category-update.dto";
+import {CategoryAggregate} from "../../aggregates/CategoryAggregate";
 
 export class CategoryService {
     constructor(
@@ -34,5 +36,19 @@ export class CategoryService {
             throw new Error(`Cannot find category with id: ${id}`);
         }
         await this.repository.delete(id);
+    }
+
+    async update(input: CategoryUpdateDto) {
+        const category = await this.repository.findOneById(input.id);
+        if (!category) {
+            throw new Error(`Cannot find category with id: ${input.id}`);
+        }
+
+        category.update({
+            name: input.name,
+            description: input.description,
+        });
+        const aggregate: CategoryAggregate = CategoryMapper.fromDomainToAggregate(category);
+        return await this.repository.update(aggregate);
     }
 }
