@@ -18,4 +18,12 @@ export class CategoryRepository {
         }
         return categoryAggregate.toDomain();
     }
+
+    async findOneById(id: string): Promise<Category | null> {
+        const categoryAggregate: CategoryAggregate | null = await this.repository.findOneById(id);
+        if (!categoryAggregate) {
+            return null;
+        }
+        return categoryAggregate.toDomain();
+    }
 }
