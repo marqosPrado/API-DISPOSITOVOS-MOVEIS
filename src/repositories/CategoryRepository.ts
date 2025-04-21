@@ -30,4 +30,18 @@ export class CategoryRepository {
     async delete(id: string): Promise<void> {
         await this.repository.delete({ id: id });
     }
+
+    async update(categoryAggregate: CategoryAggregate): Promise<Category | null> {
+        await this.repository.update({id: categoryAggregate.id}, {
+            name: categoryAggregate.name,
+            description: categoryAggregate.description,
+            updatedAt: categoryAggregate.updatedAt,
+        });
+
+        const aggregate: CategoryAggregate | null = await this.repository.findOneBy({ id: categoryAggregate.id })
+        if (!aggregate) {
+            return null;
+        }
+        return aggregate.toDomain();
+    }
 }
