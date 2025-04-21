@@ -8,6 +8,7 @@ const service = new CategoryService(repository);
 const controller = new CategoryController(service);
 
 const router: Router = Router();
-router.post("/register", (req: Request, res: Response) => controller.save(req, res))
+router.post("/register", (req: Request, res: Response) => controller.save(req, res));
+router.get("/find/:id", (req: Request, res: Response) => controller.findOneById(req, res));
 
 export default router;
