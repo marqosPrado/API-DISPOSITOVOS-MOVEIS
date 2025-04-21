@@ -6,7 +6,8 @@ export class CategoryMapper {
         return new CategoryAggregate(
             category.id,
             category.name,
-            category.description
-        )
+            category.description,
+            category.updateAt
+        );
     }
 }
