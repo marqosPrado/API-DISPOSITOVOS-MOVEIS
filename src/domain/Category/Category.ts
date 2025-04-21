@@ -10,9 +10,9 @@ export class Category {
         description: string,
         id?: string
     ) {
+        this._id = id || uuidv4();
         this._name = name;
         this._description = description;
-        this._id = id || uuidv4();
     }
 
     static create(name: string, description: string, id?: string): Category {
