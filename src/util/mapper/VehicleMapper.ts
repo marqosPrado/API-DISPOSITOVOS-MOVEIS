@@ -11,6 +11,7 @@ export class VehicleMapper {
             vehicle.color,
             vehicle.licensePlate.content,
             vehicle.registrationDate,
+            vehicle.isActive
         );
     }
 }

@@ -16,5 +16,6 @@ const controller = new VehicleController(service);
 routes.post("/register",
     (req: Request, res: Response): Promise<Vehicle> => controller.registerVehicle(req, res));
 routes.get("/list", (req: Request, res: Response) => controller.listAllByOwner(req, res));
+routes.delete("/disable/:id", (req: Resquest, res: Response) => controller.disableById(req, res));
 
 export default routes;

@@ -1,5 +1,4 @@
-import { Request, Response } from 'express';
-import {Vehicle} from "../domain/Vehicle/Vehicle";
+import {Request, Response} from 'express';
 import {plainToInstance} from "class-transformer";
 import {VehicleRequestDto} from "../dto/vehicle-request.dto";
 import {validate} from "class-validator";
@@ -38,5 +37,22 @@ export class VehicleController {
             res.status(400).json({ message: 'Owner Id is required' });
         }
         res.status(200).json(await this.vehicleService.getAllByOwner(ownerId))
+    }
+
+    async disableById(req: Request, res: Response): Promise<void> {
+        const vehicleId: string = req.params.id;
+        if (!vehicleId) {
+            res.status(400).json({ message: 'Vehicle Id is required' });
+        }
+        try {
+            const vehicle = await this.vehicleService.disableById(vehicleId)
+            res.status(200).json({ message: `Vehicle ${vehicle.licensePlate.content} disabled` })
+        } catch (error: unknown) {
+            if (error instanceof Error) {
+                res.status(400).json({ message: error.message });
+            } else {
+                res.status(500).json({ message: 'Unexpected error' });
+            }
+        }
     }
 }
