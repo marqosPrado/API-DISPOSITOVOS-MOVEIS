@@ -1,7 +1,9 @@
 import { Router } from 'express';
 import usersRoutes from "./users.routes";
 import vehicleRoutes from "./vehicles.routes";
+import categoryRoutes from "./category.routes";
 
 export const router: Router = Router()
     .use("/users", usersRoutes)
-    .use("/vehicles", vehicleRoutes);
+    .use("/vehicles", vehicleRoutes)
+    .use("/category", categoryRoutes)
