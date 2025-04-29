@@ -72,5 +72,4 @@ export class UserService {
             UserMapper.fromDomainToAggregate(user)
         );
     }
-
 }
